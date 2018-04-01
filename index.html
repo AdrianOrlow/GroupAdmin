@@ -1,0 +1,129 @@
+<html>
+<html>
+    <head>
+        <title>GroupAdmin</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+		<link type="text/css" rel="stylesheet" href="dist/css/materialize.min.css"  media="screen,projection"/>
+		<script>window.$ = window.jQuery = require('jquery');</script>
+		<script>window.Hammer = require('.dist//js/hammer.min.js');</script> 
+		<script type="text/javascript" src="dist/js/materialize.min.js"></script>
+        <script type="text/javascript">
+	        $(document).ready(function() {
+	    			$('select').material_select();
+	 			 });
+ 		</script>
+ 		<script type="text/javascript">
+ 			window.ondragover = function(e) {e.preventDefault()}
+		    window.ondrop = function(e) {e.preventDefault(); upload(e.dataTransfer.files[0]); }
+		    function upload(file) {
+
+
+		        if (!file || !file.type.match(/image.*/)) return;
+		        Materialize.toast('Przesyłanie...', 4000);
+
+
+		        var fd = new FormData(); 
+		        fd.append("image", file); 
+		        var xhr = new XMLHttpRequest();
+		        xhr.open("POST", "https://api.imgur.com/3/image.json");
+		        xhr.onload = function() {
+		            document.querySelector("#link").href = JSON.parse(xhr.responseText).data.link;
+		        }
+		        
+		        xhr.setRequestHeader('Authorization', 'Client-ID XXX');
+		        
+		        xhr.send(fd);
+		        setTimeout(function(){ 
+			    Materialize.toast('Zdjęcie zostało przesłane!', 3000);
+		        Materialize.toast('Klikij PPM na przycisk aby skopiować!', 4500);
+			    }, 3000);  
+		        
+		    }
+ 		</script>
+    </head>
+    </head>
+    <body>
+    	<nav style="-webkit-app-region: drag">
+    		<div class="nav-wrapper blue-grey">
+      		<a href="#" class="brand-logo">GroupAdmin</a>
+    		</div>
+    	</nav>
+        <div class="Absolute-Center row" style="margin: 30 auto; width: 90%; height: 75%;">
+            <form class="col s12" id="form" target="_self" onsubmit="" action="">
+                <div class="input-field col s12">
+                    <label id="1">Imię i nazwisko</label>
+                    <input placeholder="Jan Kowalski" id="feed1" type="text" class="validate">
+                </div>
+                <div class="input-field col s12">
+                    <label>Powód</label>
+                    <input placeholder="Punkt 11" id="feed3" type="text" class="validate">
+                </div>
+                <div class="row">
+                	<div class="input-field col s6">
+                    	<label>Link do screenshota</label>
+                    	<input placeholder="http://imgur.com/a/SQ5PT" id="feed4" type="text" class="validate">
+                	</div>
+                	<a class="waves-effect waves-light btn-large col s6 blue-grey" id="link" onclick="document.querySelector('input').click()">Upuść plik tutaj<input style="visibility: collapse; width: 0px;" type="file " onchange="upload(this.files[0])"></a>
+                </div>
+                <div class="row">
+                	<div class="col s6">
+                  		<label>Typ kary</label>
+                		<select id="feed2" name="feed2">
+ 							<option>Ban</option>
+ 							<option>Ban permanentny</option>
+ 							<option>Ostrzeżenie</option>
+ 							<option>Unban</option>
+						</select>
+           			</div>
+               		<div class="col s6">
+                	    <label>Wystawiający</label>
+                    	<select id="feed5" name="feed5">
+ 							<option>Albert Wolszon</option>
+ 							<option>Mirosław Wierzbicki</option>
+ 							<option>Adrian Tomasz Orłów</option>
+ 							<option>Zdzisław Goik</option>
+ 							<option>Sebastian Krajewski</option>
+						</select>
+             		</div>
+                </div>
+				<div style="width: 100%; display: block; float: right;">
+                    <button class="btn waves-effect waves-light blue-grey light-1 right" id="send" type="submit">Wyślij
+                     <i class="material-icons right">send</i>
+                    </button>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            function postToGoogle() {
+                var field1 = $('#feed1').val();
+                var field2 = $('#feed2').val();
+                var field3 = $('#feed3').val();
+                var field4 = $('#feed4').val();
+                var field5 = $('#feed5').val();
+                $.ajax({
+                    url: "https://docs.google.com/forms/d/e/XXX/formResponse",
+                    data: {"entry.XXX": field1, "entry.XXX": field2, "entry.XXX": field3, "entry.XXX": field4, "entry.XXX": field5},
+                    type: "POST",
+                    dataType: "xml",
+                    statusCode: {
+                        0: function() {
+                            Materialize.toast('Formularz został wysłany, ale wystąpił błąd.', 6000)
+                        },
+                        200: function() {
+                            Materialize.toast('Formularz został pomyślnie wysłany!', 4000)
+                        }
+                    }
+                });
+			}
+			
+            $(document).ready(function(){
+                $('#form').submit(function() {
+                    postToGoogle();
+                    return false;
+                });
+            });
+        </script>
+    </body>
+</html>

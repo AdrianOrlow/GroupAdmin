@@ -1,0 +1,20 @@
+{
+  "name": "13",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-packager . --overwrite --asar=true --platform=win32 --arch=ia32 --icon=img/logo.ico --prune=true --out=release-builds --version-string.CompanyName=CE --version-string.FileDescription=CE --version-string.ProductName=\"GroupAdmin App\""
+  },
+  "author": "Adrian Orlow",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^1.6.8",
+    "electron-packager": "^8.7.0"
+  },
+  "dependencies": {
+    "electron-context-menu": "^0.9.0",
+    "jquery": "^3.2.1"
+  }
+}
